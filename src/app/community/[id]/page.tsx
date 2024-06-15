@@ -116,11 +116,19 @@ export default function CommunityPage({ params }: { params: { id: string } }) {
             </Button>
           )}
           <div className="grid w-full grid-cols-1 gap-4 overflow-hidden p-4 md:grid-cols-2 xl:grid-cols-3">
-          {essentialWallets.data?.data.map((wallet) => (
-            <WalletCard key={wallet.id} dependants_all={dependants.data.data} wallet={wallet} />
-          ))}
+            {essentialWallets.data?.data.map((wallet) =>
+              dependants.data ? (
+                <WalletCard
+                  key={wallet.id}
+                  dependants_all={dependants.data.data}
+                  wallet={wallet}
+                />
+              ) : (
+                // Render a loading state or placeholder if dependants is null
+                <div key={wallet.id}>Loading dependants...</div>
+              ),
+            )}
           </div>
-          
         </Card>
 
         <ToastContainer />

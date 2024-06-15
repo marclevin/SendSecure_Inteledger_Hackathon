@@ -5,6 +5,10 @@ const DependantSimplifiedSchema = z.object({
   dependantId: z.string(),
 });
 
+export const essentialWalletGetbyWalletIDSchema = z.object({
+    id : z.string(),
+    });
+
 export const essentialWalletGetbyIDSchema = z.object({
     communityId: z.string(),
     });
