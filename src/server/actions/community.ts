@@ -15,12 +15,14 @@ export async function createCommunity(previousState: any, formData: FormData) {
     const id = formData.get("id")?.toString() ?? "";
     const imageUrl = `https://picsum.photos/id/${Math.floor(Math.random() * 1001)}/500/1000`;
 
+    const publicStatus = formData.get("public") === "true"; /* added this? */
+
     const communityData = {
-        communityId: formData.get("communityId")?.toString() ?? uuidv4(), // Ensure unique communityId
+        communityId: formData.get("communityId")?.toString() ?? uuidv4(),
         name: formData.get("name")?.toString() ?? "",
         about: formData.get("about")?.toString() ?? "",
         imageUrl: formData.get("imageUrl")?.toString() ?? imageUrl,
-        public: formData.get("public") === "true", // Handle boolean value for 'public'
+        public: publicStatus, // Use the parsed boolean value /* added this? */
     };
 
     const { userId } = auth();
