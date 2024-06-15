@@ -22,6 +22,8 @@ model User {
     linkedin        String? @unique
     imageUrl        String?
     campaigns       Campaign[]
+    communities     Community[] @relation(name: "CommunityCreator")
+    donations       Community[] @relation(name: "CommunityDonors")
 }
 
 model Campaign {
@@ -33,4 +35,52 @@ model Campaign {
     imageUrl        String?
     user            User? @relation(fields: [userId], references: [userId])
     userId          String
+}
+// Communities should have a many to many relationship with users (Donors)
+// Communities need an ID, name, about, ImageURL, and the user who created it.
+// Communities should be public OR private
+// Communities should have an OWNER which is ONE user, but can have many donors
+// Users can have many communities
+// Communities have many dependants 
+
+model Community {
+    id             String  @id @default(uuid())
+    communityId    String  @unique
+    name            String
+    about           String
+    imageUrl        String?
+    creator            User? @relation(name: "CommunityCreator", fields: [creatorID], references: [userId])
+    creatorID          String
+    donors          User[] @relation(name: "CommunityDonors")
+    dependants      Dependant[]
+    public          Boolean
+    wallets         EssentialWallet[]
+}
+
+// Dependants should have an ID, name, phone number, and an image URL
+// Dependants belong to ONE community.
+model Dependant {
+    id              String  @id @default(uuid())
+    name            String
+    phoneNumber     String
+    imageUrl        String?
+    community      Community @relation(fields: [communityId], references: [id])
+    essentialWallet EssentialWallet[]
+    communityId     String
+}
+
+// Contains wallet address of the entity (Pick n Pay or whatever)
+// ID, Name, WalletAddress, ImageURL, Balance
+// Each community has many wallets, with each wallet belonging to many dependants
+// Wallet(s) -> Community -> Dependent(s)
+model EssentialWallet {
+    id              String  @id @default(uuid())
+    name            String
+    walletAddress   String
+    imageUrl        String?
+    balance         Float
+    community       Community @relation(fields: [communityId], references: [id])
+    // We also want an essential wallet that belongs to a community to have MANY dependants
+    dependants      Dependant[]
+    communityId     String
 }
