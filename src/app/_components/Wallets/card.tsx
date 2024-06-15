@@ -16,16 +16,36 @@ import {
   Textarea,
   useDisclosure,
   Link,
+  Dropdown,
+  DropdownItem,
+  DropdownTrigger,
+  DropdownMenu,
 } from "@nextui-org/react";
-import { EssentialWallet } from "@prisma/client";
+import { EssentialWallet, Dependant } from "@prisma/client";
 import { FaCreditCard } from "react-icons/fa";
+import { api } from "$/src/trpc/react";
+
 
 
 export default function WalletCard({
   wallet,
+  dependants_all,
 }: {
   wallet: EssentialWallet;
+dependants_all: Dependant[];
 }) {
+    const { mutate: addDependant } = api.essentialWallet.addDependant.useMutation();
+    const dependants = api.dependant.getByWalletID.useQuery({
+        walletId: wallet.id,
+        });
+    const dependants_not_in_wallet = dependants_all.filter((dependant) => !dependants.data?.data.some((d) => d.id === dependant.id));
+    
+    // Make function to add dependant to wallet when called
+    const addDependantToWallet = async (dependantId: string) => {
+       addDependant({id: wallet.id, dependantId: dependantId})
+    };
+    // Function that when triggered adds a dependant to the wallet
+
 
   return (
     <Card className="max-w-[340px]">
@@ -64,7 +84,41 @@ export default function WalletCard({
           {wallet.walletAddress.replace('https://', '$')}
         </span>
         <p>{wallet.about}</p>
+      <div className="space-y-2">
+                {dependants.data?.data.map((dependant) => (
+                  <div
+                    key={dependant.id}
+                    className="flex items-center space-x-2"
+                  >
+                    <Avatar
+                      src={dependant.imageUrl ?? ""}
+                      alt={dependant.name}
+                      className="h-10 w-10 rounded-full object-cover"
+                    />
+                    <p className="text-md font-medium">{dependant.name}</p>
+                  </div>
+                ))}
+              </div>
+    {/* Add a drop down with all dependants not in the const */}
+    <Dropdown>
+        <DropdownTrigger>
+          <Button color="primary" size="sm" radius="full" variant="solid">
+            Add Dependant
+            </Button>
+        </DropdownTrigger>
+        <DropdownMenu
+        onAction={(key) => addDependantToWallet(key.toString())}
+        >
+          {dependants_not_in_wallet.map((dependant) => (
+            <DropdownItem key={dependant.id}>
+              {dependant.name}
+            </DropdownItem>
+          ))}
+          </DropdownMenu>
+    </Dropdown>
+
       </CardBody>
+
       <CardFooter>
         {/* {iswalletOwner && (
           <div className="space-x-4">

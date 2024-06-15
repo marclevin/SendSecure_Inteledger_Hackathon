@@ -38,11 +38,16 @@ import {
             data: {},
           };
     
-          const dependants = await ctx.db.dependant.findMany({
+            const dependants = await ctx.db.dependant.findMany({
                 where: {
-                    
+                    essentialWallet: {
+                    some: {
+                        id: input.walletId,
+                    },
+                    },
+                    },
                 },
-                });
+            );
           return { ...response, ...{ data: dependants } };
         }),
 
