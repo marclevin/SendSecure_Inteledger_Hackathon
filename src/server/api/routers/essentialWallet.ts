@@ -5,7 +5,8 @@ import {
   } from "$/src/server/api/trpc";
   import {
     essentialWalletGetbyIDSchema,
-    essentialWalletAddDependantSchema
+    essentialWalletAddDependantSchema,
+    essentialWalletGetbyWalletIDSchema,
   } from "$/src/server/api/schemas/essentialWallets";
   import { type Response } from "$/src/utils/types";
   
@@ -46,6 +47,23 @@ import {
                     }
                 }
             },
+            where: {
+                id: input.id
+            }
+            });
+        return { ...response, ...{ data: wallet } };
+      }),
+
+      getOne: publicProcedure
+      .input(essentialWalletGetbyWalletIDSchema)
+      .query(async ({ input, ctx }) => {
+        const response: Response = {
+          success: true,
+          message: "Dependants Get",
+          data: {},
+        };
+  
+        const wallet = await ctx.db.essentialWallet.findUnique({
             where: {
                 id: input.id
             }
