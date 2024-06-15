@@ -66,15 +66,6 @@ export const Navbar = () => {
         >
           Communities
         </Button>
-        <Button
-          as={Link}
-          className="rounded-full hover:bg-foreground hover:text-background transition duration-300"
-          href="/creators"
-          color="primary"
-          endContent={<FaWallet />}
-        >
-          Essential Wallets
-        </Button>
         <SignedIn>
           <UserButton
             afterSignOutUrl="/"
