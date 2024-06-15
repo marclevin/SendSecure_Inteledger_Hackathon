@@ -91,7 +91,7 @@ export default function CommunityPage({ params }: { params: { id: string } }) {
             <div className="m-2 md:m-12">{community?.data?.data?.about}</div>
             <div className="mt-4 flex items-center space-x-4 ">
               {/* Add a list of dependants here that belong to the community */}
-              <h3 className="mb-4 text-lg font-semibold">Dependants:</h3>
+              <h3 className="mb-4 text-md font-semibold">Dependants:</h3>
               {/* Map over Dependants and show names and small icon for photos */}
               <div className="space-y-2">
                 {dependants.data?.data.map((dependant) => (
@@ -109,6 +109,11 @@ export default function CommunityPage({ params }: { params: { id: string } }) {
                 ))}
               </div>
             </div>
+            <Button>
+              <Link href={`/gamification/game/index.html`}>
+                Mock Gamification
+              </Link>
+            </Button>
           </div>
         </Card>
 
