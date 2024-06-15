@@ -65,7 +65,7 @@ model Dependant {
     phoneNumber     String
     imageUrl        String?
     community      Community @relation(fields: [communityId], references: [id])
-    essentialWallet EssentialWallet[]
+    essentialWallet EssentialWallet[] @relation(name: "DependantWallets")
     communityId     String
 }
 
@@ -78,9 +78,10 @@ model EssentialWallet {
     name            String
     walletAddress   String
     imageUrl        String?
+    about           String?
     balance         Float
     community       Community @relation(fields: [communityId], references: [id])
     // We also want an essential wallet that belongs to a community to have MANY dependants
-    dependants      Dependant[]
+    dependants      Dependant[] @relation(name: "DependantWallets")
     communityId     String
 }

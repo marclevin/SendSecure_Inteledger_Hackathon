@@ -14,7 +14,7 @@ import {
 } from "@nextui-org/react";
 
 
-import { FaChild, FaExclamation, FaMagento, FaPaintBrush, FaPersonBooth, FaSith, FaWallet } from "react-icons/fa";
+import { FaChild, FaExclamation, FaMagento, FaPaintBrush, FaPeopleCarry, FaPersonBooth, FaSith, FaWallet } from "react-icons/fa";
 
 import { siteConfig } from "$/src/config/site";
 import NextLink from "next/link";
@@ -60,11 +60,11 @@ export const Navbar = () => {
         <Button
           as={Link}
           className="rounded-full hover:bg-foreground hover:text-background transition duration-300"
-          href="/creators"
+          href="/community"
           color="primary"
           endContent={<FaChild />}
         >
-          Dependants
+          Communities
         </Button>
         <Button
           as={Link}
