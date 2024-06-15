@@ -66,9 +66,9 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
                             label="Image URL"
                             placeholder="Community image URL"
                         />
-                        <label className="flex items-center">
-                            <input type="checkbox" name="public" className="mr-2" /> Public
-                        </label>
+                        <label className="flex items-center mt-2"> {/* added this? */}
+                            <input type="checkbox" name="public" className="mr-2" value="true" /> Public {/* added this? */}
+                        </label> {/* added this? */}
                         {communityCreatedState?.success === false && (
                             <Card className="flex w-full flex-col items-center bg-danger-100 p-2">
                                 Failed to create community: {communityCreatedState.message}
